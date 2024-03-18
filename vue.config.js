@@ -6,7 +6,7 @@ module.exports = defineConfig({
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
-        __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+        __DEV__: process.env.NODE_ENV === 'development',
       }),
     ],
   },
