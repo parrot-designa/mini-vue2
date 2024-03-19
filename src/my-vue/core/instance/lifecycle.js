@@ -1,4 +1,5 @@
-import { warn } from "@/my-vue/core/util/index"
+import { warn } from "@/my-vue/core/util/index";
+import Watcher from "../observer/watcher";
 
 export function mountComponent(
     vm,
