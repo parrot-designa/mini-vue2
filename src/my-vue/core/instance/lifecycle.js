@@ -1,6 +1,21 @@
 import { warn } from "@/my-vue/core/util/index";
 import Watcher from "../observer/watcher";
 
+export function lifecycleMixin(Vue){
+    Vue.prototype._update = function(vnode){
+        const vm = this; 
+        const prevVnode = vm._vnode
+
+        vm._vnode = vnode;
+
+        if (!prevVnode) {
+            // initial render
+            vm.__patch__(vm.$el, vnode)
+        }
+
+    }
+}
+
 export function mountComponent(
     vm,
     el
