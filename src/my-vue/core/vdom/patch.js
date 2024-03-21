@@ -1,4 +1,4 @@
-import { isDef,isArray } from "@/my-vue/shared/util"
+import { isDef,isArray, isPrimitive } from "@/my-vue/shared/util"
 import VNode from "./vnode";
 
 
@@ -10,8 +10,10 @@ export function createPatchFunction(backend){
     }
 
     function createChildren(vnode,children,insertedVnodeQueue){
-        //正常这里是数组类型，但是也有可能是字符串、数字类型等，例如我们这里的例子一样 children为hello mini-vue2
-        
+        //假设是字符串、数字类型等，我们将其直接挂载到vnode的真实元素下
+        if(isPrimitive(children)){
+            nodeOps.appendChild(vnode.elm,nodeOps.createTextNode('hello mini-vue'))
+        }
     }
 
     function createElm(vnode, insertedVnodeQueue,parentElm,refElm){
@@ -32,7 +34,11 @@ export function createPatchFunction(backend){
     
     function insert(parent,elm,ref){
         if(isDef(parent)){
-
+            if(isDef(ref)){
+                if(nodeOps.parentNode(ref) === parent){
+                    nodeOps.insertBefore(parent,elm,ref);
+                }
+            }
         }else{
             nodeOps.appendChild(parent,elm);
         }
@@ -53,7 +59,7 @@ export function createPatchFunction(backend){
         createElm(
             vnode,
             [],
-            null,
+            parentElm,
             nodeOps.nextSibling(oldElm)
         )
     }
