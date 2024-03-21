@@ -1,4 +1,5 @@
 import { isTrue } from "@/my-vue/shared/util";
+import { normalizeChildren } from "./helpers/normalize-children";
 import VNode from './vnode';
 
 
@@ -27,6 +28,9 @@ export function _createElement(
     children,
     normalizationType
 ){
+    if (normalizationType === ALWAYS_NORMALIZE) {
+        children = normalizeChildren(children);
+    }
     let vnode;
     if(typeof tag === 'string'){
         vnode = new VNode(tag,data,children,undefined,undefined,context)

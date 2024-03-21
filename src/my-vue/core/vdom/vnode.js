@@ -21,3 +21,7 @@ export default class VNode{
         this.context = context;
     }
 }
+
+export function createTextVNode(val) {
+  return new VNode(undefined, undefined, undefined, String(val))
+}
