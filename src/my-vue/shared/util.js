@@ -32,3 +32,36 @@ export function isPrimitive(value){
         typeof value === 'symbol' ||
         typeof value === 'boolean'
 }
+
+/**
+ * 判断是否是undefined或者null
+ * @param {*} v 
+ * @returns 
+ */
+export function isUndef(v){
+    return v === undefined || v === null
+}
+
+/**
+ * 缓存高阶函数
+ * @param {*} fn 
+ * @returns 
+ */
+export function cached(fn){
+    const cache = Object.create(null);
+    return function cachedFn(str) {
+      const hit = cache[str]
+      return hit || (cache[str] = fn(str))
+    }
+}
+  
+
+export function extend(to, _from){
+    // 遍历_from对象的所有可枚举属性（不包括Symbol属性和不可枚举属性）
+    for (const key in _from) {
+        // 将_from对象上当前迭代到的属性key及其对应的value复制到to对象上
+        to[key] = _from[key]
+    }
+    // 返回经过扩展的to对象
+    return to
+}
