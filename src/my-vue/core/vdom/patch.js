@@ -25,9 +25,7 @@ export function createPatchFunction(backend){
         }
     }
 
-    function createElm(vnode, insertedVnodeQueue,parentElm,refElm){
-        debugger;
-
+    function createElm(vnode, insertedVnodeQueue,parentElm,refElm){ 
         //获取 VNode 表示的标签名或组件名称。
         const tag = vnode.tag;
         //获取 VNode 子节点数组
@@ -61,6 +59,30 @@ export function createPatchFunction(backend){
         }
     }
 
+    function removeVnodes(vnodes,startIdx,endIdx) {
+        for (; startIdx <= endIdx; ++startIdx) {
+            const ch = vnodes[startIdx];
+            if(isDef(ch)){
+                if (isDef(ch.tag)) {
+                    removeAndInvokeRemoveHook(ch);
+                }
+            }
+        }
+    }
+
+    function removeAndInvokeRemoveHook(vnode){
+        removeNode(vnode.elm)
+    }
+
+
+    function removeNode(el) {
+        const parent = nodeOps.parentNode(el)
+        // element may have already been removed due to v-html / v-text
+        if (isDef(parent)) {
+            nodeOps.removeChild(parent, el)
+        }
+    }
+
     return function patch(oldVnode,vnode){ 
         //判断是否是一个真实节点，nodeType是DOM元素的一个属性，它表示节点的类型
         const isRealElement = isDef(oldVnode.nodeType)
@@ -78,6 +100,10 @@ export function createPatchFunction(backend){
             [],
             parentElm,
             nodeOps.nextSibling(oldElm)
-        )
+        );
+
+        if(isDef(parentElm)){
+            removeVnodes([oldVnode], 0, 0);
+        }
     }
 }

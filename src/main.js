@@ -1,4 +1,4 @@
-//import Vue from "vue";
+// import Vue from "vue";
 import Vue from "@/my-vue/platforms/web/entry-runtime-esm"
 import App from "./App.vue";
 
