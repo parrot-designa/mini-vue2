@@ -65,3 +65,24 @@ export function extend(to, _from){
     // 返回经过扩展的to对象
     return to
 }
+
+export function toObject(arr) {
+  const res = {}
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i]) {
+      extend(res, arr[i])
+    }
+  }
+  return res
+}
+ 
+const camelizeRE = /-(\w)/g
+export const camelize = cached((str) => {
+  return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ''))
+})
+
+const hyphenateRE = /\B([A-Z])/g
+export const hyphenate = cached((str) => {
+  return str.replace(hyphenateRE, '-$1').toLowerCase()
+})
+

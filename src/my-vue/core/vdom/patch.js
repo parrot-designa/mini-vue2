@@ -1,9 +1,25 @@
 import { isDef,isArray, isPrimitive } from "@/my-vue/shared/util"
 import VNode from "./vnode";
 
+const hooks = ['create', 'activate', 'update', 'remove', 'destroy']
 
+export const emptyNode = new VNode('', {}, [])
 export function createPatchFunction(backend){
-    const { nodeOps } = backend;
+
+    let i, j
+    const cbs = {}
+
+    const { modules, nodeOps } = backend
+
+    for (i = 0; i < hooks.length; ++i) {
+        cbs[hooks[i]] = []
+        for (j = 0; j < modules.length; ++j) {
+            if (isDef(modules[j][hooks[i]])) {
+                cbs[hooks[i]].push(modules[j][hooks[i]])
+            }
+        }
+    }
+ 
 
     function emptyNodeAt(elm) {
         return new VNode(nodeOps.tagName(elm).toLowerCase(), {}, [], undefined, elm)
@@ -25,17 +41,28 @@ export function createPatchFunction(backend){
         }
     }
 
+    function invokeCreateHooks(vnode) {
+        for (let i = 0; i < cbs.create.length; ++i) {
+            cbs.create[i](emptyNode, vnode)
+        }
+    }
     function createElm(vnode, insertedVnodeQueue,parentElm,refElm){ 
         //获取 VNode 表示的标签名或组件名称。
         const tag = vnode.tag;
         //获取 VNode 子节点数组
         const children = vnode.children;
+        //获取VNode的data数据
+        const data = vnode.data;
         //创建真实的 DOM 元素
         // 如果vnode有标签
         if(isDef(tag)){
             vnode.elm = nodeOps.createElement(tag,vnode);
              //递归地为当前 VNode 的所有子节点创建和挂载对应的 DOM 元素
             createChildren(vnode, children); 
+
+            if(isDef(data)){
+                invokeCreateHooks(vnode, insertedVnodeQueue)
+            }
              //将新创建的 DOM 元素（vnode.elm）插入到指定的父元素（parentElm）中，
             insert(parentElm, vnode.elm, refElm);
         }else{
