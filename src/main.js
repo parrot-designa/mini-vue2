@@ -9,9 +9,5 @@ import App from "./App.vue";
 //   render: (h) => h(App)
 // }).$mount("#app");   
 new Vue({
-    render:(h)=>h('div',{
-        style:{
-            color:'red'
-        }
-    },"hello")
+    render:(h)=>h('div',"hello")
 }).$mount("#app");

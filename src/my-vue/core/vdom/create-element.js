@@ -1,4 +1,4 @@
-import { isTrue } from "@/my-vue/shared/util";
+import { isPrimitive, isTrue,isArray } from "@/my-vue/shared/util";
 import { normalizeChildren } from "./helpers/normalize-children";
 import VNode from './vnode';
 
@@ -14,6 +14,12 @@ export function createElement(
     normalizationType,
     alwaysNormalize
 ){
+
+    if(isArray(data) || isPrimitive(data)){
+        children = data;
+        data = undefined; 
+    }
+
     if(isTrue(alwaysNormalize)){
         normalizationType = ALWAYS_NORMALIZE;
     }
