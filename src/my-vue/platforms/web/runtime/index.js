@@ -26,6 +26,18 @@ if(inBrowser){
                 )
             }
         }
+        if (
+            __DEV__ &&
+            process.env.NODE_ENV !== 'test' &&
+            config.productionTip !== false &&
+            typeof console !== 'undefined'
+        ) {
+            // @ts-expect-error
+            console[console.info ? 'info' : 'log'](
+                `您正在以开发模式运行Vue。\n` +
+                `在进行生产部署时，请确保打开生产模式。\n`
+            )
+        }
     },0);
 }
 
