@@ -110,7 +110,8 @@ export function createPatchFunction(backend){
         }
     }
 
-    return function patch(oldVnode,vnode){ 
+    return function patch(oldVnode,vnode){  
+        console.log("vnode",vnode);
         //判断是否是一个真实节点，nodeType是DOM元素的一个属性，它表示节点的类型
         const isRealElement = isDef(oldVnode.nodeType)
 

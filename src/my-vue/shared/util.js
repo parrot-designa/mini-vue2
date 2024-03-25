@@ -7,6 +7,16 @@ export function noop(a, b, c) {}
 export function isTrue(v){
     return v === true;
 }
+
+/**
+ * 判断是否是false
+ * @param {*} v 
+ * @returns 
+ */
+export function isFalse(v){
+  return v === false;
+}
+
 /**
  * 判断是否是null或undefined
  * @returns 
