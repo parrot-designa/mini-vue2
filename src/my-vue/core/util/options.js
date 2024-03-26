@@ -1,6 +1,19 @@
-/**
- * Default strategy.
- */
-const defaultStrat = function (parentVal, childVal) {
-    return childVal === undefined ? parentVal : childVal
+
+export function mergeOptions(
+    parent,
+    child,
+){
+    const options = {};
+    let key
+    for (key in parent) {
+      mergeField(key,parent[key])
+    }
+
+    for (key in parent) {
+        mergeField(key,parent[key])
+      }
+
+    function mergeField(key,value){
+        options[key] = value;
+    }
 }
