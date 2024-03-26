@@ -9,3 +9,8 @@ export function initMixin(Vue){
         initRender(vm);
     }
 }
+
+export function resolveConstructorOptions(Ctor) {
+    let options = Ctor.options;
+    return options
+}

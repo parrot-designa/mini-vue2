@@ -12,4 +12,6 @@ export function initGlobalAPI(Vue) {
         }
     }
     Object.defineProperty(Vue, 'config', configDef)
+    Vue.options = Object.create(null);
+    Vue.options._base = Vue;
 }
