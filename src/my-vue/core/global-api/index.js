@@ -1,5 +1,6 @@
 import config from '../config';
 import { warn } from "@/my-vue/core/util";
+import { initExtend } from './extend';
 
 export function initGlobalAPI(Vue) {
     const configDef = {};
@@ -14,4 +15,6 @@ export function initGlobalAPI(Vue) {
     Object.defineProperty(Vue, 'config', configDef)
     Vue.options = Object.create(null);
     Vue.options._base = Vue;
+
+    initExtend(Vue);
 }

@@ -2,6 +2,7 @@
 export function mergeOptions(
     parent,
     child,
+    vm
 ){
     const options = {};
     let key
@@ -11,7 +12,7 @@ export function mergeOptions(
 
     for (key in child) {
         mergeField(key,child[key])
-      }
+    }
 
     function mergeField(key,value){
         options[key] = value;

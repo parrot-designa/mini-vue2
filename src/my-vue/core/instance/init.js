@@ -5,9 +5,7 @@ export function initMixin(Vue){
     Vue.prototype._init = function (options){
         const vm = this;
         
-        vm.$options = mergeOptions(resolveConstructorOptions(vm.constructor),options); 
-
-        debugger;
+        vm.$options = mergeOptions(resolveConstructorOptions(vm.constructor),options);
 
         initRender(vm);
     }
