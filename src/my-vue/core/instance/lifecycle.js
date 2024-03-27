@@ -3,7 +3,6 @@ import Watcher from "../observer/watcher";
 
 export function lifecycleMixin(Vue){
     Vue.prototype._update = function(vnode){
-        debugger;
         const vm = this; 
         const prevVnode = vm._vnode
 

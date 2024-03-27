@@ -23,6 +23,10 @@ export function createComponent(
         Ctor = baseCtor.extend(Ctor)
     }
 
+    data = data || {};
+    const listeners = data.on
+    data.on = data.nativeOn
+
     const name = getComponentName(Ctor.options) || tag
 
     const vnode = new VNode(
@@ -32,6 +36,7 @@ export function createComponent(
         undefined,
         undefined,
         context,
+        { Ctor, listeners },
     )
 
     return vnode;

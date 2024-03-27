@@ -5,13 +5,15 @@ export default class VNode{
     text;
     elm;
     context;
+    componentOptions;
     constructor(
         tag,
         data,
         children,
         text,
         elm,
-        context
+        context,
+        componentOptions
     ){
         this.tag = tag;
         this.data = data;
@@ -19,6 +21,7 @@ export default class VNode{
         this.text = text;
         this.elm = elm;
         this.context = context;
+        this.componentOptions = componentOptions;
     }
 }
 

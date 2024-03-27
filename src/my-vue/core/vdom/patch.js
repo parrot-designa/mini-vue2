@@ -47,6 +47,11 @@ export function createPatchFunction(backend){
         }
     }
     function createElm(vnode, insertedVnodeQueue,parentElm,refElm){ 
+
+        if (createComponent(vnode, insertedVnodeQueue, parentElm, refElm)) {
+            return
+        }
+
         //获取 VNode 表示的标签名或组件名称。
         const tag = vnode.tag;
         //获取 VNode 子节点数组
@@ -72,6 +77,14 @@ export function createPatchFunction(backend){
         }   
 
     }  
+
+    function createComponent(vnode, insertedVnodeQueue, parentElm, refElm){
+        let i = vnode.data
+        if(isDef(i)){
+            debugger;
+        }
+        return ;
+    }
     
     function insert(parent,elm,ref){
         if (isDef(parent)) {
