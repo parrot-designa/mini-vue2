@@ -96,3 +96,6 @@ export const hyphenate = cached((str) => {
   return str.replace(hyphenateRE, '-$1').toLowerCase()
 })
 
+export function isObject(obj) {
+  return obj !== null && typeof obj === 'object'
+}
