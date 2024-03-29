@@ -7,7 +7,7 @@ export function getComponentName(options) {
 }
 
 const componentVNodeHooks = {
-    init(vnode){
+    init(vnode,hydration){
         if(
             vnode.componentInstance && 
             !vnode.componentInstance._isDestroyed &&
@@ -20,7 +20,7 @@ const componentVNodeHooks = {
                 vnode,
                 activeInstance
             ));
-            child.$mount(vnode.elm);
+            child.$mount(hydration ? vnode.elm : undefined , hydration);
         }
     }
 };
