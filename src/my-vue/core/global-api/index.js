@@ -13,6 +13,8 @@ export function initGlobalAPI(Vue) {
         }
     }
     Object.defineProperty(Vue, 'config', configDef)
+
+    //创建options
     Vue.options = Object.create(null);
     Vue.options._base = Vue;
 

@@ -1,6 +1,8 @@
 import { warn } from "@/my-vue/core/util/index";
 import Watcher from "../observer/watcher";
 
+export let activeInstance = null
+
 export function lifecycleMixin(Vue){
     Vue.prototype._update = function(vnode){
         const vm = this; 
