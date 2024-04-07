@@ -7,6 +7,8 @@ export function initMixin(Vue){
         
         vm.$options = mergeOptions(resolveConstructorOptions(vm.constructor),options);
 
+        vm._self = vm;
+
         initRender(vm);
     }
 }

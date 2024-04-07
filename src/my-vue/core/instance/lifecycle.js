@@ -3,16 +3,26 @@ import Watcher from "../observer/watcher";
 
 export let activeInstance = null
 
+export function setActiveInstance(vm) {
+    const prevActiveInstance = activeInstance
+    activeInstance = vm
+    return () => {
+      activeInstance = prevActiveInstance
+    }
+}
+
 export function lifecycleMixin(Vue){
     Vue.prototype._update = function(vnode){
         const vm = this; 
-        const prevVnode = vm._vnode
+        const prevVnode = vm._vnode;
+
+        const restoreActiveInstance = setActiveInstance(vm);
 
         vm._vnode = vnode;
 
         if (!prevVnode) {
-            // initial render
-            vm.__patch__(vm.$el, vnode)
+            // 初始化渲染 将最新的dom赋值给vm.$el
+            vm.$el = vm.__patch__(vm.$el, vnode)
         }
 
     }

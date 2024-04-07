@@ -1,4 +1,4 @@
-import { isDef,isArray, isPrimitive } from "@/my-vue/shared/util"
+import { isDef,isArray, isPrimitive, isUndef } from "@/my-vue/shared/util"
 import VNode from "./vnode";
 
 const hooks = ['create', 'activate', 'update', 'remove', 'destroy']
@@ -58,17 +58,17 @@ export function createPatchFunction(backend){
         const children = vnode.children;
         //获取VNode的data数据
         const data = vnode.data;
-        //创建真实的 DOM 元素
+        // 创建真实的 DOM 元素
         // 如果vnode有标签
         if(isDef(tag)){
             vnode.elm = nodeOps.createElement(tag,vnode);
-             //递归地为当前 VNode 的所有子节点创建和挂载对应的 DOM 元素
+            //递归地为当前 VNode 的所有子节点创建和挂载对应的 DOM 元素
             createChildren(vnode, children); 
 
             if(isDef(data)){
                 invokeCreateHooks(vnode, insertedVnodeQueue)
             }
-             //将新创建的 DOM 元素（vnode.elm）插入到指定的父元素（parentElm）中，
+            //将新创建的 DOM 元素（vnode.elm）插入到指定的父元素（parentElm）中，
             insert(parentElm, vnode.elm, refElm);
         }else{
             // 如果没有标签 比如文本类型
@@ -91,13 +91,14 @@ export function createPatchFunction(backend){
             // in that case we can just return the element and be done.
             if (isDef(vnode.componentInstance)) {
               initComponent(vnode, insertedVnodeQueue)
-              insert(parentElm, vnode.elm, refElm)
-              if (isTrue(isReactivated)) {
-                reactivateComponent(vnode, insertedVnodeQueue, parentElm, refElm)
-              }
+              insert(parentElm, vnode.elm, refElm);
               return true
             }
         }
+    }
+
+    function initComponent(vnode, insertedVnodeQueue){
+        vnode.elm = vnode.componentInstance.$el;
     }
     
     function insert(parent,elm,ref){
@@ -139,26 +140,35 @@ export function createPatchFunction(backend){
 
     return function patch(oldVnode,vnode){  
         console.log("vnode",vnode);
-        //判断是否是一个真实节点，nodeType是DOM元素的一个属性，它表示节点的类型
-        const isRealElement = isDef(oldVnode.nodeType)
+        let isInitialPatch = false;
+        const insertedVnodeQueue = []
+        
+        if(isUndef(oldVnode)){
+            isInitialPatch = true;
+            createElm(vnode, insertedVnodeQueue);
+        }else{
+            //判断是否是一个真实节点，nodeType是DOM元素的一个属性，它表示节点的类型 
+            const isRealElement = isDef(oldVnode.nodeType);
+            if(isRealElement){
+                //如果上一次的vnode是真实节点，则基于这个节点创建一个空的虚拟节点
+                oldVnode = emptyNodeAt(oldVnode);
+            }
+            // 存贮上一个节点的真实节点
+            const oldElm = oldVnode.elm;
+            const parentElm = nodeOps.parentNode(oldElm); 
 
-        if(isRealElement){
-            //如果上一次的vnode是真实节点，则基于这个节点创建一个空的虚拟节点
-            oldVnode = emptyNodeAt(oldVnode);
-        }
-        // 存贮上一个节点的真实节点
-        const oldElm = oldVnode.elm;
-        const parentElm = nodeOps.parentNode(oldElm); 
+            createElm(
+                vnode,
+                [],
+                parentElm,
+                nodeOps.nextSibling(oldElm)
+            );
 
-        createElm(
-            vnode,
-            [],
-            parentElm,
-            nodeOps.nextSibling(oldElm)
-        );
-
-        if(isDef(parentElm)){
-            removeVnodes([oldVnode], 0, 0);
-        }
+            //如果存在父节点 移除旧节点
+            if(isDef(parentElm)){
+                removeVnodes([oldVnode], 0, 0);
+            }
+        }  
+        return vnode.elm;
     }
 }
