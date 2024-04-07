@@ -6,15 +6,18 @@ function updateClass(oldVnode,vnode){
     const data = vnode.data;
     
     if ( 
-        isUndef(data.class)
+        isUndef(data.class) 
+        && isUndef(data.staticClass)
     ) {
-        return "";
+        return ;
     }
 
     let cls = genClassForVnode(vnode);
 
-    if(cls){
-        el.setAttribute('class',cls)
+    //如果一样 则不进行更新
+    if(cls !== el._prevClass){
+        el.setAttribute('class',cls);
+        el._prevClass = cls
     }
 }
 
