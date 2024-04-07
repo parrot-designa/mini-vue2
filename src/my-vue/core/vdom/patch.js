@@ -47,7 +47,7 @@ export function createPatchFunction(backend){
         }
     }
     function createElm(vnode, insertedVnodeQueue,parentElm,refElm){ 
-
+        
         if (createComponent(vnode, insertedVnodeQueue, parentElm, refElm)) {
             return
         }
@@ -98,6 +98,7 @@ export function createPatchFunction(backend){
     }
 
     function initComponent(vnode, insertedVnodeQueue){
+        // 执行_update时__patch__方法 返回的
         vnode.elm = vnode.componentInstance.$el;
     }
     

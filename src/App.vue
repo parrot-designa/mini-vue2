@@ -1,3 +1,4 @@
 <template>
-  <div id="app1">hello</div>
+  <div id="app1" style="color:red;">hello</div>
 </template>
+

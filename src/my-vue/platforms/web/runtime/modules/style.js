@@ -1,5 +1,5 @@
 import { isUndef, camelize, hyphenate,cached} from "@/my-vue/shared/util";
-import { normalizeStyleBinding } from "../../util/style";
+import { getStyle } from "../../util/style";
 
 const cssVarRE = /^--/
 const importantRE = /\s*!important$/
@@ -64,8 +64,9 @@ function updateStyle(oldVnode, vnode){
         return ;
     }
 
-    const el = vnode.elm;
-    const newStyle = normalizeStyleBinding(vnode.data.style) || {};
+    const el = vnode.elm; 
+ 
+    const newStyle = getStyle(vnode, true);
 
     for(name in newStyle){
         cur = newStyle[name];
