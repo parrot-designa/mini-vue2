@@ -1,7 +1,6 @@
 import { isUndef } from "@/my-vue/shared/util"
 
 function updateAttrs(oldVnode, vnode){
-    debugger;
     if(isUndef(vnode.data.attrs)){
         return ;
     }

@@ -99,3 +99,28 @@ export const hyphenate = cached((str) => {
 export function isObject(obj) {
   return obj !== null && typeof obj === 'object'
 }
+
+function replacer(_key, val) {
+  // avoid circular deps from v3
+  if (val && val.__v_isRef) {
+    return val.value
+  }
+  return val
+}
+
+/**
+ * Convert a value to a string that is actually rendered.
+ */
+export function toString(val) {
+  return val == null
+    ? ''
+    : Array.isArray(val) || (isPlainObject(val) && val.toString === _toString)
+    ? JSON.stringify(val, replacer, 2)
+    : String(val)
+}
+
+const _toString = Object.prototype.toString
+
+export function isPlainObject(obj) {
+  return _toString.call(obj) === '[object Object]'
+}
