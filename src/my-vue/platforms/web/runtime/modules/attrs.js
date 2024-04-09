@@ -1,6 +1,7 @@
 import { isUndef } from "@/my-vue/shared/util"
 
 function updateAttrs(oldVnode, vnode){
+    debugger;
     if(isUndef(vnode.data.attrs)){
         return ;
     }
@@ -9,13 +10,17 @@ function updateAttrs(oldVnode, vnode){
     const attrs = vnode.data.attrs || {}
 
     for (key in attrs) {
-        cur = attrs[key]  
+        cur = attrs[key];
         setAttr(elm, key, cur);
     }
 }
 
 function setAttr(el, key, value){
+    baseSetAttr(el, key, value)
+}
 
+function baseSetAttr(el, key, value){
+    el.setAttribute(key, value)
 }
 
 export default {

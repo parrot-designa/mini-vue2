@@ -8,8 +8,9 @@
  * 4.针对特殊指令（如v-model、v-if、v-for等）的解析和执行逻辑。
  * 5.插槽（slot）机制的相关实现。
  */
-
+import attrs from './attrs';
 import style from './style';
 import klass from './class';
 
-export default [style,klass];
+
+export default [style,klass,attrs];
