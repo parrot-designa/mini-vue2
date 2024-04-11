@@ -1,4 +1,4 @@
-import { noop,isFunction } from "@/my-vue/shared/util";
+import { noop,isFunction,bind } from "@/my-vue/shared/util";
 
 const sharedPropertyDefinition = {
     enumerable: true,

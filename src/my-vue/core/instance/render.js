@@ -13,6 +13,7 @@ export function renderMixin(Vue){
     installRenderHelpers(Vue.prototype)
 
     Vue.prototype._render = function(){
+        
         const vm = this;
 
         const { render } = vm.$options;
