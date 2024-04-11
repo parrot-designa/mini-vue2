@@ -1,5 +1,5 @@
 <template>
-  <div id="app1" class="a">{{a}}</div>
+  <button>测试</button>
 </template>
 
 <script>
@@ -7,6 +7,11 @@ export default {
   data(){
     return {
       a:"hello"
+    }
+  },
+  methods:{
+    handleClick:function(val){
+      console.log("handleClick==>",val);
     }
   }
 }

@@ -20,9 +20,18 @@ export function proxy(target, sourceKey, key){
 export function initState(vm){
     const opts = vm.$options;
 
+    if (opts.methods){
+        initMethods(vm, opts.methods);
+    }
     if (opts.data) {
         initData(vm)
     }
+}
+
+function initMethods(vm, methods){
+    for(const key in methods){
+        vm[key] = typeof methods[key] !== 'function' ? noop : bind(methods[key], vm);
+    } 
 }
 
 function initData(vm){
