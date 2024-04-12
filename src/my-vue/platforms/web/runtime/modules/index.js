@@ -11,6 +11,7 @@
 import attrs from './attrs';
 import style from './style';
 import klass from './class';
+import events from './events';
 
 
-export default [style,klass,attrs];
+export default [style, klass, attrs, events];
