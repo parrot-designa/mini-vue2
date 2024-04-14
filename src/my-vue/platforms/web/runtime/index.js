@@ -1,9 +1,11 @@
 import Vue from '@/my-vue/core/index';
 import config from "@/my-vue/core/config";
 import { devtools, inBrowser } from '@/my-vue/core/util/index'
-import { query } from "../util/index";
+import { query,isReservedTag } from "../util/index";
 import { patch } from "./patch";
 import { mountComponent } from "@/my-vue/core/instance/lifecycle";
+
+Vue.config.isReservedTag = isReservedTag;
 
 Vue.prototype.__patch__ = patch;
 
