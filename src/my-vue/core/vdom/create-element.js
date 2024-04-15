@@ -1,4 +1,5 @@
 import { isPrimitive, isTrue,isArray,isDef } from "@/my-vue/shared/util";
+import config from '../config'
 import { normalizeChildren } from "./helpers/normalize-children";
 import { createComponent } from "./create-component";
 import { resolveAsset } from "../util/options";
@@ -41,13 +42,12 @@ export function _createElement(
     }
     let vnode,Ctor;
     if(typeof tag === 'string'){
-        if(isDef((Ctor = resolveAsset(context.$options, 'components', tag)))){
+        if(config.isReservedTag(tag)){
+            vnode = new VNode(tag,data,children,undefined,undefined,context);
+        }else if(isDef((Ctor = resolveAsset(context.$options, 'components', tag)))){
             //匹配到 创建component的vnode
-            vnode = createComponent(Ctor, data, context, children, tag);
-        }else{
-            vnode = new VNode(tag,data,children,undefined,undefined,context)
-        }
-        
+            vnode = createComponent(Ctor, data, context, children, tag); 
+        }  
     } else {
         vnode = createComponent(tag,data,context,children);
     }

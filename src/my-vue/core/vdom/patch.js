@@ -140,7 +140,7 @@ export function createPatchFunction(backend){
     }
 
     return function patch(oldVnode,vnode){  
-        console.log("vnode",vnode);
+        console.log("===patch===>",oldVnode,vnode);
         let isInitialPatch = false;
         const insertedVnodeQueue = []
         
