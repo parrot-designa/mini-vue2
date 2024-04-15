@@ -1,6 +1,7 @@
-import { isPrimitive, isTrue,isArray } from "@/my-vue/shared/util";
+import { isPrimitive, isTrue,isArray,isDef } from "@/my-vue/shared/util";
 import { normalizeChildren } from "./helpers/normalize-children";
 import { createComponent } from "./create-component";
+import { resolveAsset } from "../util/options";
 import VNode from './vnode';
 
 
@@ -38,10 +39,11 @@ export function _createElement(
     if (normalizationType === ALWAYS_NORMALIZE) {
         children = normalizeChildren(children);
     }
-    let vnode;
+    let vnode,Ctor;
     if(typeof tag === 'string'){
         if(isDef((Ctor = resolveAsset(context.$options, 'components', tag)))){
-
+            //匹配到 创建component的vnode
+            vnode = createComponent(Ctor, data, context, children, tag);
         }else{
             vnode = new VNode(tag,data,children,undefined,undefined,context)
         }

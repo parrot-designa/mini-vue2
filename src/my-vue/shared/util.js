@@ -85,7 +85,9 @@ export function toObject(arr) {
   }
   return res
 }
- 
+/**
+ * background-color -> backgroundColor
+ */
 const camelizeRE = /-(\w)/g
 export const camelize = cached((str) => {
   return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ''))
@@ -162,3 +164,12 @@ export function makeMap(
   }
   return expectsLowerCase ? val => map[val.toLowerCase()] : val => map[val]
 }
+
+const hasOwnProperty = Object.prototype.hasOwnProperty
+export function hasOwn(obj, key){
+  return hasOwnProperty.call(obj, key)
+}
+
+export const capitalize = cached((str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+})
