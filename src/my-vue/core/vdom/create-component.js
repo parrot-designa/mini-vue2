@@ -80,6 +80,8 @@ export function createComponent(
 
     data = data || {};
 
+    const listeners = data.on; 
+
     installComponentHooks(data);
 
     //初始化时这里的tag没有传入 即为undefined 再者没有定义name属性 所以这里的name为空
@@ -92,7 +94,7 @@ export function createComponent(
         undefined,
         undefined,
         context,
-        { Ctor,children },
+        { Ctor, children ,listeners},
     )
 
     return vnode;
