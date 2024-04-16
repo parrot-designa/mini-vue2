@@ -2,6 +2,7 @@ import { mergeOptions } from "../util/options";
 import { initRender } from "./render";
 import { initState } from "./state";
 import { initEvents } from "./event";
+import { callHook } from "./lifecycle";
 
 export function initMixin(Vue){
     Vue.prototype._init = function (options){
@@ -18,6 +19,8 @@ export function initMixin(Vue){
         initEvents(vm);
          
         initRender(vm);
+
+        callHook(vm, 'beforeCreate');
         //初始化state
         initState(vm)
     }

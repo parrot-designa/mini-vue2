@@ -8,10 +8,14 @@ export default {
   components: {
     Hello,
   },
+  data:function(){
+    return {
+      b:'aaa'
+    }
+  },
   methods: {
     handleClickParent: function (value,value1) {
-      console.log("handleClickParent==>",value,value1);
-      return a;
+      console.log("handleClickParent==>",value,value1); 
     },
   },
 };
