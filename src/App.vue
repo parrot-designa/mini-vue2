@@ -8,14 +8,20 @@ export default {
   components: {
     Hello,
   },
-  data:function(){
+  data: function () {
     return {
-      b:'aaa'
-    }
+      b: "aaa",
+    };
+  },
+  beforeCreate: function () {
+    console.log("beforeCreate==>", this);
+  },
+  created: function () {
+    console.log("created==>", this);
   },
   methods: {
-    handleClickParent: function (value,value1) {
-      console.log("handleClickParent==>",value,value1); 
+    handleClickParent: function (value, value1) {
+      console.log("handleClickParent==>", value, value1);
     },
   },
 };

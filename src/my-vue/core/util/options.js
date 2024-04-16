@@ -1,6 +1,44 @@
-import { hasOwn,camelize } from "@/my-vue/shared/util";
+import { hasOwn,camelize,isArray } from "@/my-vue/shared/util";
+import { LIFECYCLE_HOOKS } from "@/my-vue/shared/constants";
 import { warn } from "./index";
+import config from '../config'
 
+const strats = config.optionMergeStrategies
+
+/**
+ * 默认的策略
+ */
+const defaultStrat = function (parentVal, childVal) {
+  return childVal === undefined ? parentVal : childVal;
+}
+
+export function mergeLifecycleHook(
+  parentVal,
+  childVal
+) {
+  const res = childVal
+    ? parentVal
+      ? parentVal.concat(childVal)
+      : isArray(childVal)
+      ? childVal
+      : [childVal]
+    : parentVal
+  return res ? dedupeHooks(res) : res
+}
+
+function dedupeHooks(hooks) {
+  const res = []
+  for (let i = 0; i < hooks.length; i++) {
+    if (res.indexOf(hooks[i]) === -1) {
+      res.push(hooks[i])
+    }
+  }
+  return res
+}
+
+LIFECYCLE_HOOKS.forEach(hook => {
+  strats[hook] = mergeLifecycleHook
+})
 
 export function mergeOptions(
     parent,
@@ -17,8 +55,9 @@ export function mergeOptions(
         mergeField(key,child[key])
     }
 
-    function mergeField(key,value){
-        options[key] = value;
+    function mergeField(key){
+      const strat = strats[key] || defaultStrat
+      options[key] = strat(parent[key], child[key], vm, key);
     }
 
     return options;

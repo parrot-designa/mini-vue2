@@ -22,7 +22,9 @@ export function initMixin(Vue){
 
         callHook(vm, 'beforeCreate');
         //初始化state
-        initState(vm)
+        initState(vm);
+
+        callHook(vm, 'created')
     }
 }
 
