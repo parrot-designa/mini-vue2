@@ -173,3 +173,13 @@ export function hasOwn(obj, key){
 export const capitalize = cached((str) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 })
+
+export function toArray(list, start) {
+  start = start || 0
+  let i = list.length - start
+  const ret = new Array(i)
+  while (i--) {
+    ret[i] = list[i + start]
+  }
+  return ret
+}

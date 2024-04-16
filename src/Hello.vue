@@ -1,7 +1,5 @@
 <template>
-  <span style="color: red" @click="handleClick" @test1="handleClick"
-    >hello2</span
-  >
+  <span style="color: red" @click="handleClick">hello2</span>
 </template>
  
  <<script>
@@ -11,6 +9,7 @@
   methods:{
     handleClick:function(){
       console.log("handleClick==>");
+      this.$emit("clickParent",1,2,3)
     }
   }
  })

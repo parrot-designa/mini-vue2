@@ -30,7 +30,7 @@ export function initInternalComponent(
 
     const parentVnode = options._parentVnode;
     const vnodeComponentOptions = parentVnode.componentOptions;
-
+    //_parentListeners 是一个内部属性，用于存储父组件传递给子组件的监听器（listeners
     opts._parentListeners = vnodeComponentOptions.listeners
 
     if (options.render) {

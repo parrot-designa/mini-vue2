@@ -17,7 +17,8 @@ export function lifecycleMixin(Vue){
         const prevVnode = vm._vnode;
 
         const restoreActiveInstance = setActiveInstance(vm);
-
+        //_vnode属性用于存储当前Vue实例的虚拟节点
+        //vnode为当前Vue实例上render的返回值
         vm._vnode = vnode;
 
         if (!prevVnode) {

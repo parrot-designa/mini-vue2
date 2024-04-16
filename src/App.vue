@@ -1,5 +1,5 @@
 <template>
-  <Hello @clickParent="handleClickParent" />
+  <Hello @clickParent="handleClickParent('Hello')" />
 </template>
 
 <script>
@@ -9,8 +9,9 @@ export default {
     Hello,
   },
   methods: {
-    handleClickParent: function () {
-      console.log("handleClick==>");
+    handleClickParent: function (value,value1) {
+      console.log("handleClickParent==>",value,value1);
+      return a;
     },
   },
 };
