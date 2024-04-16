@@ -39,6 +39,8 @@ export function mountComponent(
         warn("必须要有render方法");
     }
 
+    callHook(vm, 'beforeMount');
+
     let updateComponent = () => {
         vm._update(vm._render())
     }
