@@ -1,15 +1,19 @@
 <template>
-  <span style="color: red" @click="handleClick">hello2</span>
+  <span style="color: red" @click="handleClick">{{ num }}</span>
 </template>
  
- <<script>
- 
+ <script> 
  
  export default ({
+  data:function(){
+    return {
+      num:0
+    }
+  },
   methods:{
     handleClick:function(){
-      console.log("handleClick==>");
-      this.$emit("clickParent",1,2,3)
+      console.log(this.num);
+      this.num += 1;
     }
   }
  })

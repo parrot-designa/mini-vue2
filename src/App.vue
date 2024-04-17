@@ -7,21 +7,7 @@ import Hello from "./Hello.vue";
 export default {
   components: {
     Hello,
-  },
-  data: function () {
-    return {
-      b: "aaa",
-    };
-  },
-  beforeCreate: function () {
-    console.log("beforeCreate==>", this);
-  },
-  created: function () {
-    console.log("created==>", this);
-  },
-  beforeMount: function () {
-    console.log("beforeMount==>", this);
-  },
+  }, 
   methods: {
     handleClickParent: function (value, value1) {
       console.log("handleClickParent==>", value, value1);

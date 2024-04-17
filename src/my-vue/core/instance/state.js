@@ -45,6 +45,8 @@ function initData(vm){
         const key = keys[i]
         proxy(vm, `_data`, key)
     }
+    //给data尝试创建一个观察者实例
+    observe(data)
 }
 
 export function getData(data, vm){
