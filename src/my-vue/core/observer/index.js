@@ -1,5 +1,6 @@
 import { isPlainObject } from "../util";
 import { def } from "../util/lang";
+import { hasChanged } from "@/my-vue/shared/util";
 import Dep from "./dep";
 
 const NO_INITIAL_VALUE = {}
@@ -25,6 +26,19 @@ export function defineReactive(
         configurable:true,
         get: function reactiveGetter(){
             const value = getter ? getter.call(obj) : val;
+            return value;
+        },
+        set: function reactiveSetter(newVal){
+            const value = getter ? getter.call(obj) : val;
+            if(!hasChanged(value,newVal)){
+                return 
+            }
+            if(setter){
+                setter.call(obj, newVal);
+            }else{
+                val = newVal;
+            }
+            dep.notify()
         }
     });
 }

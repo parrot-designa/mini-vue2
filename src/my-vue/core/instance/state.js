@@ -1,4 +1,5 @@
 import { noop,isFunction,bind } from "@/my-vue/shared/util";
+import { observe } from "../observer/index";
 
 const sharedPropertyDefinition = {
     enumerable: true,

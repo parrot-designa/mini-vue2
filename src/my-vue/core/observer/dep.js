@@ -10,4 +10,8 @@ export default class Dep{
         this.subs = [];
     }
 
+    notify(){
+        const subs = this.subs.filter(s => s);
+    }
+
 }
