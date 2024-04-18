@@ -10,8 +10,26 @@ export default class Dep{
         this.subs = [];
     }
 
+    addSub(sub) {
+        this.subs.push(sub)
+    } 
+
+    dep(info){
+        if(Dep.target){
+            Dep.target.addDep(this);
+        }
+    }
+
     notify(){
         const subs = this.subs.filter(s => s);
     }
 
+}
+
+Dep.target = null;
+const targetStack = [];
+
+export function pushTarget(target){
+    targetStack.push(target);
+    Dep.target = target;
 }

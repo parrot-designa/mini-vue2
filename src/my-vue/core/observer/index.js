@@ -26,6 +26,9 @@ export function defineReactive(
         configurable:true,
         get: function reactiveGetter(){
             const value = getter ? getter.call(obj) : val;
+            if(Dep.target){
+                dep.depend();
+            } 
             return value;
         },
         set: function reactiveSetter(newVal){
@@ -45,11 +48,12 @@ export function defineReactive(
 
 export class Observer{
     constructor(value){
+        //给value定义一个__ob__属性
         def(value, '__ob__', this);
         const keys = Object.keys(value);
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i];
-            defineReactive(value, key, NO_INITIAL_VALUE, undefined, shallow, mock)
+            defineReactive(value, key, NO_INITIAL_VALUE, undefined);
         }
     }
 }
@@ -57,6 +61,7 @@ export class Observer{
 export function observe(
     value
 ){
+    //判断如果是一个对象 就new一个观察者
     if(isPlainObject(value)){
         return new Observer(value)
     }
