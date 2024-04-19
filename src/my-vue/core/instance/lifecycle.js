@@ -1,4 +1,4 @@
-import { warn } from "@/my-vue/core/util/index";
+import { noop, warn } from "@/my-vue/core/util/index";
 import Watcher from "../observer/watcher";
 
 export let activeInstance = null
@@ -45,9 +45,16 @@ export function mountComponent(
         vm._update(vm._render())
     }
 
+    const watcherOptions = {
+        before() {
+        }
+    }
+
     new Watcher(
         vm,
-        updateComponent
+        updateComponent,
+        noop,
+        watcherOptions
     )
 }
 

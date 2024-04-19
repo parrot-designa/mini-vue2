@@ -7,12 +7,24 @@ export default class Watcher {
     newDepIds;
     newDeps;
 
-    constructor(vm,updateCallback){
+    constructor(
+        vm,
+        updateCallback,
+        cb,
+        options
+    ){
         this.vm = vm;
+
+        if(options){
+            this.lazy = !!options.lazy;
+            this.sync = !!options.sync
+        }
+
+
         this.getter = updateCallback;
         this.newDeps = [];
         this.depIds = new Set();
-        this.newDepIds = new Set()
+        this.newDepIds = new Set();
 
         this.get();
     }
@@ -33,5 +45,9 @@ export default class Watcher {
 
         const vm = this.vm;
         this.getter.call(vm, vm);
+    }
+
+    update(){
+        queueWatcher(this);
     }
 }

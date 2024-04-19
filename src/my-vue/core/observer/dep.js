@@ -22,6 +22,11 @@ export default class Dep{
 
     notify(){
         const subs = this.subs.filter(s => s);
+
+        for (let i = 0, l = subs.length; i < l; i++) {
+            const sub = subs[i];
+            sub.update();
+        }
     }
 
 }
