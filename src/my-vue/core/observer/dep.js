@@ -11,10 +11,12 @@ export default class Dep{
     }
 
     addSub(sub) {
+        // 这里的sub相当于watcher watcher被添加进subs数组中
         this.subs.push(sub)
     } 
 
-    dep(info){
+    depend(){
+        // Dep.target 表示 正在收集的watcher依赖
         if(Dep.target){
             Dep.target.addDep(this);
         }

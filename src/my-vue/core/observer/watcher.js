@@ -42,9 +42,14 @@ export default class Watcher {
 
     get(){
         pushTarget(this);
-
         const vm = this.vm;
-        this.getter.call(vm, vm);
+        try{
+            this.getter.call(vm, vm);
+        } catch(e){
+
+        } finally{
+            popTarget();
+        } 
     }
 
     update(){
