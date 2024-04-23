@@ -24,6 +24,9 @@ export function lifecycleMixin(Vue){
         if (!prevVnode) {
             // 初始化渲染 将最新的dom赋值给vm.$el
             vm.$el = vm.__patch__(vm.$el, vnode)
+        }else {
+            // 更新
+            vm.$el = vm.__patch__(prevVnode, vnode)
         }
 
     }
