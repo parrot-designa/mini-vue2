@@ -17,8 +17,7 @@
     }
   },
   methods:{
-    handleClick:function(){
-      console.log(this.num);
+    handleClick:function(){ 
       this.num += 1;
     }
   }
