@@ -6,6 +6,14 @@ let getNow = Date.now;
 
 export let currentFlushTimestamp = 0
 
+/**
+ * 重置状态
+ */
+function resetSchedulerState() {
+    queue.length = 0 
+}
+  
+
 function flushSchedulerQueue() {
     currentFlushTimestamp = getNow();
 
@@ -17,6 +25,8 @@ function flushSchedulerQueue() {
 
         watcher.run()
     }
+
+    resetSchedulerState();
 }
 
 export function queueWatcher(watcher){

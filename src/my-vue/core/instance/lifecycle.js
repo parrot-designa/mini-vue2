@@ -17,7 +17,7 @@ export function lifecycleMixin(Vue){
         const prevVnode = vm._vnode;
 
         const restoreActiveInstance = setActiveInstance(vm);
-        //_vnode属性用于存储当前Vue实例的虚拟节点
+        //_vnode属性用于存储旧的Vue实例的虚拟节点
         //vnode为当前Vue实例上render的返回值
         vm._vnode = vnode;
 
@@ -25,7 +25,7 @@ export function lifecycleMixin(Vue){
             // 初始化渲染 将最新的dom赋值给vm.$el
             vm.$el = vm.__patch__(vm.$el, vnode)
         }else {
-            // 更新
+            // 之前有节点说明这是更新
             vm.$el = vm.__patch__(prevVnode, vnode)
         }
 

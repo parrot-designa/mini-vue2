@@ -3,6 +3,23 @@ import VNode from "./vnode";
 
 const hooks = ['create', 'activate', 'update', 'remove', 'destroy'];
 
+/**
+ * sameVnode 函数用于判断两个虚拟 DOM 节点（a 和 b）是否代表相同的节点，即它们在标识性和关键属性上相匹配。这种比较常用于虚拟 DOM 的更新过程中，以确定是否可以复用现有节点，而非创建新的节点，从而提高渲染效率。
+ * @param {*} a 
+ * @param {*} b 
+ * @returns 
+ * 函数通过以下条件判断节点 a 和 b 是否为同一节点：
+ * 1. Key 相同：比较两个节点的 key 属性是否相等。key 是在列表项或动态组件中用于高效识别和重用元素的重要标识。
+ * 2. AsyncFactory 相同：比较两个节点的 asyncFactory 属性是否指向同一个异步组件工厂。这确保了它们是同一种异步组件实例。
+ * 3. 核心属性匹配：
+ *    * Tag 相同：检查节点的 tag（元素类型或组件名称）是否一致。
+ *    * IsComment 相同：判断两个节点是否均为注释节点（isComment 为真）或非注释节点。
+ *    * Data 属性存在性一致：使用 isDef 函数比较两个节点的 data 属性是否存在。这表示它们是否都具有附加的数据对象。
+ * 4. Input 类型相同：调用 sameInputType 函数比较两个节点（如果它们是输入元素）的输入类型是否相同。这有助于在表单控件更新时保持状态的一致性。
+ * 5. 异步占位符情况：如果节点 a 是异步占位符（isAsyncPlaceholder 为真），且节点 b 的 asyncFactory 没有错误（isUndef(b.asyncFactory.error)），则认为它们是同一节点。这可能发生在异步组件加载过程中，允许暂时保留占位符节点直到实际组件加载完成。
+ * 
+ * 综上所述，sameVnode 函数通过一系列严格的条件判断，确保了两个虚拟 DOM 节点在关键标识、类型、数据状态、输入类型以及异步组件相关特性等方面完全一致，从而准确地识别出它们是否代表相同的节点。
+ */
 function sameVnode(a, b) {
     return a.key === b.key && a.tag === b.tag;
 }
@@ -153,11 +170,23 @@ export function createPatchFunction(backend) {
         let oldEndIdx = oldCh.length - 1
         let oldEndVnode = oldCh[oldEndIdx]
         let newStartIdx = 0
-        let newEndIdx = newCh.length - 1
         let newStartVnode = newCh[0]
+        let newEndIdx = newCh.length - 1 
         let newEndVnode = newCh[newEndIdx]
         
         let oldKeyToIdx, idxInOld, vnodeToMove, refElm
+        while(oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx){
+            // 如果是相同节点
+            if(sameVnode(oldStartVnode, newStartVnode)) {
+                patchVnode(
+                    oldStartVnode,
+                    newStartVnode,
+                    [],
+                )
+                oldStartVnode = oldCh[++oldStartIdx]
+                newStartVnode = newCh[++newStartIdx]
+            }
+        }
     }
 
     function patchVnode(
@@ -172,6 +201,7 @@ export function createPatchFunction(backend) {
         const ch = vnode.children
         // 如果不是文本vnode
         if(isUndef(vnode.text)){
+            // 如果有新旧children
             if (isDef(oldCh) && isDef(ch)) {
                 if (oldCh !== ch){
                     updateChildren(elm, oldCh, ch)
@@ -191,7 +221,7 @@ export function createPatchFunction(backend) {
         } else {
             //判断是否是一个真实节点，nodeType是DOM元素的一个属性，它表示节点的类型 
             const isRealElement = isDef(oldVnode.nodeType);
-            //如果是相同节点，调用patchNpde
+            //如果是相同节点，调用patchVnode
             if (!isRealElement && sameVnode(oldVnode, vnode)) {
                 patchVnode(oldVnode, vnode, insertedVnodeQueue)
             } else {
