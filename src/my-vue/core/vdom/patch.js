@@ -165,13 +165,18 @@ export function createPatchFunction(backend) {
         oldCh,
         newCh,
     ){
+        // 旧的一组子节点上的第一个节点索引
         let oldStartIdx = 0
-        let oldStartVnode = oldCh[0]
-        let oldEndIdx = oldCh.length - 1
-        let oldEndVnode = oldCh[oldEndIdx]
+        // 新的一组子节点上的第一个节点索引
         let newStartIdx = 0
-        let newStartVnode = newCh[0]
+        let oldEndIdx = oldCh.length - 1
         let newEndIdx = newCh.length - 1 
+        let oldStartVnode = oldCh[0]
+        
+        let oldEndVnode = oldCh[oldEndIdx]
+        
+        let newStartVnode = newCh[0]
+        
         let newEndVnode = newCh[newEndIdx]
         
         let oldKeyToIdx, idxInOld, vnodeToMove, refElm
