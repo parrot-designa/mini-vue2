@@ -1,7 +1,8 @@
 <template>
   <div>
     <span style="color: red" @click="handleClick">
-      {{ num }}
+      <div>{{ num }}</div>
+      <div>{{ num2 }}</div>
     </span> 
     <div>{{ msg }}</div>
   </div>
@@ -13,6 +14,7 @@
   data:function(){
     return {
       num:0,
+      num2:2,
       msg:"hello"
     }
   },

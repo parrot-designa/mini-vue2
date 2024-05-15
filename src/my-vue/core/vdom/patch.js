@@ -207,6 +207,9 @@ export function createPatchFunction(backend) {
                     updateChildren(elm, oldCh, ch)
                 }
             }
+        //如果是文本node，直接更新文本vnode 的文字
+        }else if(oldVnode.text !== vnode.text){
+            nodeOps.setTextContent(elm,vnode.text)
         }
     }
 
